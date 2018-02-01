@@ -1,7 +1,11 @@
 'use strict';
 
 var express = require('express');
-var app = express();
+//server
+var app = module.exports = express();
+
+//files that needs app
+var data = require('./data/SaveLoad');
 
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
@@ -21,3 +25,4 @@ var server = app.listen(8081, function () {
 
     console.log("Example app listening at http://%s:%s", host, port);
 })
+
