@@ -8,50 +8,44 @@ var filepath = appDir + '/files/';
 //sends list of saved files
 app.get('/data', (req, res) => {
     fs.readdir(filepath, (err, files) => {
-        //check for errors
         if (err) {
-            let gooddirs = CheckDirectories(err, req, res);
-            if (gooddirs) {
-                res.send("Directories are OK");
-            }
+            res.send(JSON.stringify(err));
         }
-        //send data
         else {
             console.log(files);
             res.send(JSON.stringify(files));
         }
     });
-
-    
 });
 
-function CheckDirectories(errormsg, req, res) {
-    let goodDirs = true;
-
-    console.log(errormsg);
-    //no such directory
-    if (errormsg.errno == -4058) {
-        //create directories
-        let createdDirs = CreateDirs();
-        if (!createdDirs) {
-            console.log("Couldn't create dirs");
-            goodDirs = false;
+//todo: parse first and check for errors
+app.post('/data/save', (req, res) => {
+    console.log(res.json);
+    if (req.body == undefined || req.body == "") {
+        res.send(JSON.stringify("Empty"));
+        return;
+    }
+    fs.writeFile(path.join(filepath, 'testfile.json'), "Testing with this string", (err) => {
+        if (err) {
+            res.sendDate(JSON.stringify(err));
         }
+        else {
+            console.log(req.body);
+            res.send(JSON.stringify("File saved"));
+        }
+    });
+    return;
+});
 
-    }
-    //unknown error
-    else {
-        res.send(err.message);
-        goodDirs = false;
-    }
 
-    return goodDirs;
-}
-
-function CreateDirs() {
+exports.CreateDirs = function CreateDirs() {
     fs.mkdir(filepath , (err) => {
         //check error
         if (err) {
+            if (err.errno = -4075)
+                return true;
+
+            console.log(err);
             console.log(err.message);
             return false;
         }
