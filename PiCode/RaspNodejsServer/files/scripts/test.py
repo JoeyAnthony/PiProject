@@ -1,5 +1,7 @@
 import time
+import sys
 
 while True:
-  time.sleep(1);
   print("python works");
+  sys.stdout.flush();
+  time.sleep(1);

@@ -1,9 +1,9 @@
-'use strict';
-var express = require('express');
-var bodyParser = require('body-parser')
+ 'use strict';
+const express = require('express');
+const bodyParser = require('body-parser')
 
 //server
-var app = module.exports = express();
+let app = module.exports = express();
 
 // 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //files that needs app
-var data = require('./data/SaveLoad');
-var led = require('./led/LedScriptExecution');
+const data = require('./data/SaveLoad');
+const led = require('./led/LedScriptExecution');
 
 app.use(function (req, res) {
     res.setHeader('Content-Type', 'text/plain')
@@ -37,7 +37,7 @@ app.post('/', function (req, res) {
  * Starts webserver
  * 127.0.0.1:8081 on windows
  */
-var server = app.listen(8081, function () {
+let server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
 
