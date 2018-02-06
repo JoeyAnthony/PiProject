@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 //server
 var app = module.exports = express();
 
-// parse application/x-www-form-urlencoded
+// 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 //files that needs app
 var data = require('./data/SaveLoad');
+var led = require('./led/LedScriptExecution');
 
 app.use(function (req, res) {
     res.setHeader('Content-Type', 'text/plain')
@@ -32,12 +33,16 @@ app.post('/', function (req, res) {
     res.send('Hello POST');
 })
 
+/**
+ * Starts webserver
+ * 127.0.0.1:8081 on windows
+ */
 var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
 
     //initialization
-    data.CreateDirs();
+    data.MakeFileTree();
 
     console.log("Example app listening at http://%s:%s", host, port);
 })
