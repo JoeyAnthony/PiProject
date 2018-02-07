@@ -6,7 +6,9 @@ const data = require('./../data/SaveLoad');
  * Executes a python script on a child process
  */
 app.post('/led/execute', (req, res) => {
-    executor.RunScript(data.scriptPath + "test.py");
+    if(executor.RunScript(req.body.processname, req.body.filename, res)){
+
+    }
 });
 
 /**
@@ -14,12 +16,23 @@ app.post('/led/execute', (req, res) => {
  * Returns a list of running processes
  */
 app.get('/led/running', (req, res) => {
+    var names = [];
+    executor.processList.forEach(element => {
+        names.push(element.name);
+    });
     
+    res.send(JSON.stringify(names));
 });
 
 /**
  * Terminates a python script on a child process
  */
-app.get('/led/terminate', (req, res) => {
-    executor.TerminateProcess();
+app.post('/led/terminate', (req, res) => {
+    if(executor.TerminateProcess(req.body.processname)){
+        res.send(JSON.stringify("Terminated"));
+    }
+    else
+    {
+        res.send(JSON.stringify("Not Existent"));
+    }
 });
